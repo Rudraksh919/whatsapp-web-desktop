@@ -1,0 +1,31 @@
+{
+  "name": "whatsapp-web-desktop",
+  "version": "1.0.0",
+  "description": "Desktop wrapper for WhatsApp Web (unofficial)",
+  "main": "main.js",
+  "author": {
+    "name": "Rudraksh",
+    "email": "rudrakshkumawat919@gmail.com"
+  },
+  "homepage": "https://github.com/Rudraksh919/whatsapp-web-desktop",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.whatsapp.web.desktop",
+    "productName": "WhatsApp Web Desktop",
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ],
+      "category": "Network",
+      "icon": "assets"
+    }
+  },
+  "devDependencies": {
+    "electron": "^38.2.0",
+    "electron-builder": "^26.0.12"
+  }
+}
