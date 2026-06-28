@@ -86,9 +86,3 @@ Download the latest version from the **Releases** page.
 | -------- | ------------------- |
 | Windows  | `.exe`              |
 | Linux    | `.deb`, `.AppImage` |
-
----
-
-## License
-
-This project is licensed under the MIT License.
