@@ -1,6 +1,6 @@
 # WhatsApp Web Desktop
 
-Unofficial WhatsApp Web wrapper built with Electron. Runs on **Windows** and **Linux**.
+WhatsApp Web wrapper built with Electron. Runs on **Windows** and **Linux**.
 
 ## Features
 
@@ -8,7 +8,7 @@ Unofficial WhatsApp Web wrapper built with Electron. Runs on **Windows** and **L
 - Close-to-tray (app keeps running in the background)
 - Native desktop notifications (click to focus the chat)
 - "Start on login" toggle (starts hidden in the tray)
-- Downloads saved to `Downloads/Whatsapp`
+- Downloads saved to `Downloads/`
 - External links open in your default browser
 - Single-instance (re-launching focuses the existing window)
 
@@ -16,7 +16,7 @@ Unofficial WhatsApp Web wrapper built with Electron. Runs on **Windows** and **L
 
 ### Windows
 
-Download the latest `WhatsApp Web Desktop Setup x.y.z.exe` from
+Download the latest `${name}-${version}-setup.exe` (e.g. `whatsapp-web-desktop-setup-1.0.4.exe`) from
 [Releases](https://github.com/Rudraksh919/whatsapp-linux/releases) and run it.
 The NSIS installer lets you choose the install folder and creates Desktop and
 Start Menu shortcuts.

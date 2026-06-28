@@ -17,10 +17,27 @@ Menu.setApplicationMenu(null);
 const isWindows = process.platform === "win32";
 const APP_ID = "com.whatsapp.web.desktop";
 
+// Custom URI scheme used for notification activation. Clicking a toast from the
+// Windows notification panel (Action Center) launches this URI, which re-opens
+// the app even when it was sitting in the tray or fully closed.
+const PROTOCOL = "whatsapp-webapp";
+
 // On Windows this is required so notifications show the correct app name/icon
 // (otherwise they appear as "electron.app.<id>" and may be silently dropped).
 if (isWindows) {
   app.setAppUserModelId(APP_ID);
+}
+
+// Register ourselves as the handler for the PROTOCOL:// scheme.
+if (process.defaultApp) {
+  // Running unpackaged (electron .) — point the scheme at this electron binary.
+  if (process.argv.length >= 2) {
+    app.setAsDefaultProtocolClient(PROTOCOL, process.execPath, [
+      path.resolve(process.argv[1]),
+    ]);
+  }
+} else {
+  app.setAsDefaultProtocolClient(PROTOCOL);
 }
 
 const WHATSAPP_URL = "https://web.whatsapp.com/";
@@ -33,20 +50,43 @@ if (process.platform === "linux") {
   app.commandLine.appendSwitch("disable-gpu");
 }
 
-// Resolve the user's Downloads folder in a cross-platform way, then keep a
-// dedicated WhatsApp sub-folder for everything saved from the app.
+// Resolve the user's Downloads folder in a cross-platform way and save
+// everything from the app there directly.
 function getDownloadDir() {
-  let base;
+  let dir;
   try {
-    base = app.getPath("downloads");
+    dir = app.getPath("downloads");
   } catch (e) {
-    base = path.join(app.getPath("home"), "Downloads");
+    dir = path.join(app.getPath("home"), "Downloads");
   }
-  const dir = path.join(base, "Whatsapp");
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
   return dir;
+}
+
+// Bring the main window to the foreground, creating/un-hiding it as needed.
+function revealWindow() {
+  if (!mainWindow) createWindow();
+  if (mainWindow.isMinimized()) mainWindow.restore();
+  mainWindow.show();
+  // On Windows, briefly pinning always-on-top reliably pulls the window to the
+  // foreground from the tray; otherwise it can stay behind other apps.
+  if (isWindows) {
+    mainWindow.setAlwaysOnTop(true);
+    mainWindow.setAlwaysOnTop(false);
+  }
+  mainWindow.focus();
+}
+
+// Minimal XML escaping for values injected into the toast template.
+function escapeXml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 }
 
 function createWindow() {
@@ -105,12 +145,10 @@ const gotTheLock = app.requestSingleInstanceLock();
 if (!gotTheLock) {
   app.quit();
 } else {
+  // A second launch (including a PROTOCOL:// notification activation from the
+  // Action Center) lands here in the already-running instance — reveal the app.
   app.on("second-instance", () => {
-    if (mainWindow) {
-      if (mainWindow.isMinimized()) mainWindow.restore();
-      mainWindow.show();
-      mainWindow.focus();
-    }
+    revealWindow();
   });
 }
 
@@ -193,7 +231,7 @@ app.on("ready", () => {
     mainWindow.once("ready-to-show", () => mainWindow.hide());
   }
 
-  // Save every download into the user's Downloads/Whatsapp folder.
+  // Save every download into the user's Downloads folder.
   const downloadDir = getDownloadDir();
   session.defaultSession.on("will-download", (event, item) => {
     const filePath = path.join(downloadDir, item.getFilename());
@@ -229,18 +267,29 @@ app.on("window-all-closed", () => {
 ipcMain.on("notify", (event, { title, body }) => {
   if (!Notification.isSupported()) return;
 
-  const notification = new Notification({
-    title: title || "WhatsApp",
-    body: body || "",
+  const safeTitle = title || "WhatsApp";
+  const safeBody = body || "";
+
+  const options = {
+    title: safeTitle,
+    body: safeBody,
     icon: path.join(__dirname, "assets", "icon.png"),
-  });
+  };
 
-  notification.on("click", () => {
-    if (!mainWindow) createWindow();
-    if (mainWindow.isMinimized()) mainWindow.restore();
-    mainWindow.show();
-    mainWindow.focus();
-  });
+  // On Windows, route the toast through protocol activation so clicking it from
+  // the notification panel (Action Center) — not just the live toast — re-opens
+  // the app. Electron's plain "click" event only fires for the live toast.
+  if (isWindows) {
+    options.toastXml =
+      `<toast activationType="protocol" launch="${PROTOCOL}://open">` +
+      `<visual><binding template="ToastGeneric">` +
+      `<text>${escapeXml(safeTitle)}</text>` +
+      `<text>${escapeXml(safeBody)}</text>` +
+      `</binding></visual></toast>`;
+  }
 
+  const notification = new Notification(options);
+  // Fallback for the live-toast click on platforms where the event fires.
+  notification.on("click", revealWindow);
   notification.show();
 });
