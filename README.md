@@ -16,7 +16,7 @@ WhatsApp Web wrapper built with Electron. Runs on **Windows** and **Linux**.
 
 ### Windows
 
-Download the latest `${name}-${version}-setup.exe` (e.g. `whatsapp-web-desktop-setup-1.0.4.exe`) from
+Download the latest `${name}-${version}-${arch}-setup.exe` (e.g. `whatsapp-web-desktop-1.0.4-x64-setup.exe`) from
 [Releases](https://github.com/Rudraksh919/whatsapp-linux/releases) and run it.
 The NSIS installer lets you choose the install folder and creates Desktop and
 Start Menu shortcuts.
