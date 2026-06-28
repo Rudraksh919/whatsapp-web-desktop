@@ -10,7 +10,8 @@
   "homepage": "https://github.com/Rudraksh919/whatsapp-web-desktop",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "dist:win": "electron-builder --win nsis"
   },
   "build": {
     "appId": "com.whatsapp.web.desktop",
@@ -22,6 +23,21 @@
       ],
       "category": "Network",
       "icon": "assets"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "WhatsApp Web",
+      "uninstallDisplayName": "WhatsApp Web Desktop"
     }
   },
   "devDependencies": {
