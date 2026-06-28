@@ -4,7 +4,7 @@ WhatsApp Web wrapper built with Electron. Runs on **Windows** and **Linux**.
 
 ## Features
 
-- **Privacy Blur Mode**: Built-in toggle switch to blur inactive chat lists (Main, Archived, and Search) to protect your privacy from prying eyes.
+- **Privacy Blur Mode**: Built-in toggle switch to blur inactive chat lists to protect your privacy from prying eyes.
 - System tray icon (single-click to open, right-click menu)
 - Close-to-tray (app keeps running in the background)
 - Native desktop notifications (click to focus the chat)
