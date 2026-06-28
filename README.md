@@ -16,22 +16,10 @@ WhatsApp Web wrapper built with Electron. Runs on **Windows** and **Linux**.
 
 ### Windows
 
-Download the latest `${name}-${version}-${arch}-setup.exe` (e.g. `whatsapp-web-desktop-1.0.4-x64-setup.exe`) from
+Download the latest `${name}-${version}-${arch}-setup.exe` (e.g. `whatsapp-web-desktop-1.0.0-x64-setup.exe`) from
 [Releases](https://github.com/Rudraksh919/whatsapp-linux/releases) and run it.
 The NSIS installer lets you choose the install folder and creates Desktop and
 Start Menu shortcuts.
-
-### Linux
-
-Download the latest `.deb` from
-[Releases](https://github.com/Rudraksh919/whatsapp-linux/releases) and install:
-
-```bash
-sudo dpkg -i ./whatsapp-web-desktop_1.0.2_amd64.deb
-sudo apt-get install -f
-```
-
-(An `AppImage` is also produced for distro-independent use.)
 
 ## Build from source
 
@@ -39,9 +27,6 @@ sudo apt-get install -f
 npm install
 
 # Windows installer (Setup .exe) -> dist/
-npm run dist:win
-
-# Linux packages (.deb + AppImage) -> dist/
 npm run dist
 ```
 
