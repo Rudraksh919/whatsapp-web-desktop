@@ -1,7 +1,7 @@
 {
   "name": "whatsapp-web-desktop",
-  "version": "1.0.2",
-  "description": "Desktop wrapper for WhatsApp Web (unofficial)",
+  "version": "1.0.4",
+  "description": "Desktop wrapper for WhatsApp Web",
   "main": "main.js",
   "author": {
     "name": "Rudraksh",
@@ -10,7 +10,7 @@
   "homepage": "https://github.com/Rudraksh919/whatsapp-web-desktop",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder"
+    "dist": "electron-builder --linux deb"
   },
   "build": {
     "appId": "com.whatsapp.web.desktop",
