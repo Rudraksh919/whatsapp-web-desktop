@@ -86,3 +86,11 @@ Download the latest version from the **Releases** page.
 | -------- | ------------------- |
 | Windows  | `.exe`              |
 | Linux    | `.deb`, `.AppImage` |
+
+---
+
+## Disclaimer
+
+This is an unofficial desktop wrapper for WhatsApp Web built with Electron.
+
+It is not affiliated with, endorsed by, or sponsored by WhatsApp or Meta. WhatsApp is a trademark of Meta Platforms, Inc.
