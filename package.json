@@ -1,6 +1,6 @@
 {
   "name": "whatsapp-web-desktop",
-  "version": "1.0.4",
+  "version": "1.0.0",
   "description": "Desktop wrapper for WhatsApp Web",
   "main": "main.js",
   "author": {
