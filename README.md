@@ -1,37 +1,26 @@
 # WhatsApp Web Desktop
 
-WhatsApp Web wrapper built with Electron. Runs on **Windows** and **Linux**.
+WhatsApp Web in a small native window. This branch (`tauri-windows`) is a **Tauri v2 (Rust) + WebView2** port for **Windows**: no bundled Chromium, no Node.js process, ~1.5 MB installer. The original Electron app (`main.js`, `preload.js`) is still here for side-by-side comparison.
 
 ## Features
 
-- **Privacy Blur Mode**: Built-in toggle switch to blur inactive chat lists to protect your privacy from prying eyes.
-- System tray icon (single-click to open, right-click menu)
-- Close-to-tray (app keeps running in the background)
-- Native desktop notifications (click to focus the chat)
-- Downloads saved to `Downloads/`
-- External links open in your default browser
-- Single-instance (re-launching focuses the existing window)
+- Privacy blur toggle for the chat list, plus an "Open Downloads" button
+- System tray (left-click opens, right-click menu), close-to-tray
+- Native Windows toasts; clicking one (even from the Action Center) brings the app back
+- Unread count on the taskbar icon and tray
+- Memory trim while hidden in the tray (WebView2 `MemoryUsageTargetLevel = Low`)
+- Downloads go to your Downloads folder (`name (1).ext` on duplicates)
+- External links open in your default browser; single instance
 
-## Install
+## Build
 
-### Windows
-
-Download the latest `${name}-${version}-${arch}-setup.exe` (e.g. `whatsapp-web-desktop-1.0.0-x64-setup.exe`) from
-[Releases](https://github.com/Rudraksh919/whatsapp-linux/releases) and run it.
-The NSIS installer lets you choose the install folder and creates Desktop and
-Start Menu shortcuts.
-
-## Build from source
+Needs Rust and the MSVC build tools.
 
 ```bash
-npm install
-
-# Windows installer (Setup .exe) -> dist/
-npm run dist
+cargo install tauri-cli --version "^2" --locked
+cd src-tauri
+cargo tauri dev      # run
+cargo tauri build    # installer -> src-tauri/target/release/bundle/nsis/
 ```
 
-Run in development:
-
-```bash
-npm start
-```
+Icon source is `src-tauri/icons/icon.svg`; regenerate the rest with `cargo tauri icon icons/icon.svg`.

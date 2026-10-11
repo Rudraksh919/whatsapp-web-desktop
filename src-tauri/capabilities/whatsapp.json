@@ -1,0 +1,6 @@
+{
+  "identifier": "whatsapp",
+  "windows": ["main"],
+  "remote": { "urls": ["https://web.whatsapp.com/*"] },
+  "permissions": ["allow-notify", "allow-set-unread", "allow-open-downloads"]
+}
