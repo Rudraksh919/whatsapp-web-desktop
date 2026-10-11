@@ -1,6 +1,6 @@
 # WhatsApp Web Desktop
 
-WhatsApp Web in a small native window. This branch (`tauri-windows`) is a **Tauri v2 (Rust) + WebView2** port for **Windows**: no bundled Chromium, no Node.js process, ~1.5 MB installer. The original Electron app (`main.js`, `preload.js`) is still here for side-by-side comparison.
+WhatsApp Web in a small native window. This branch is a **Tauri v2 (Rust) + WebView2** port for **Windows**: no bundled Chromium, no Node.js process, ~1.5 MB installer.
 
 ## Features
 
