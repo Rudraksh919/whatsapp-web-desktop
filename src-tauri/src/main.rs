@@ -19,7 +19,9 @@ fn main() {
         // lands here in the running instance.
         .plugin(tauri_plugin_single_instance::init(|app, _, _| reveal(app)))
         .plugin(tauri_plugin_deep_link::init())
-        .plugin(tauri_plugin_opener::init())
+        // Our own on_new_window/on_navigation handlers open links; the plugin's click
+        // interceptor would swallow target=_blank links (its IPC is blocked for remote pages).
+        .plugin(tauri_plugin_opener::Builder::new().open_js_links_on_click(false).build())
         .invoke_handler(tauri::generate_handler![notify, set_unread, open_downloads])
         .setup(|app| {
             build_window(app.handle())?;
