@@ -48,6 +48,8 @@ fn build_window(app: &AppHandle) -> tauri::Result<WebviewWindow> {
         .title("WhatsApp")
         .inner_size(1100.0, 700.0)
         .initialization_script(include_str!("inject.js"))
+        // Tauri swallows file drops on Windows by default; WhatsApp needs native HTML5 drag-and-drop.
+        .disable_drag_drop_handler()
         // WhatsApp stays in-app; every other link goes to the default browser.
         .on_navigation(|url| {
             if url.origin().ascii_serialization() == "https://web.whatsapp.com" {
